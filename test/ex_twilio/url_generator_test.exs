@@ -38,6 +38,15 @@ defmodule ExTwilio.UrlGeneratorTest do
                "StatusCallback=http%3A%2F%2Fexample.com%2Fstatus_callback&StatusCallbackEvent=ringing&StatusCallbackEvent=answered&StatusCallbackEvent=completed"
     end
 
+    test "to_query_string can handle a value of map list without error" do
+      params = [
+        data: %{foo: "bar"}
+      ]
+
+      assert ExTwilio.UrlGenerator.to_query_string(params) ==
+               "Data=%7B%22foo%22%3A%22bar%22%7D"
+    end
+
     test "ignores parent keys at the root module level" do
       options = [account: "1234"]
       refute ExTwilio.UrlGenerator.build_url(Submodule.Child, nil, options) =~ "Account=1234"

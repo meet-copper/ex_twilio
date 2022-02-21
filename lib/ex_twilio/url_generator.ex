@@ -108,6 +108,7 @@ defmodule ExTwilio.UrlGenerator do
     list
     |> Enum.flat_map(fn
       {key, value} when is_list(value) -> Enum.map(value, &{camelize(key), &1})
+      {key, value} when is_map(value) -> [{camelize(key), Jason.encode!(value)}]
       {key, value} -> [{camelize(key), value}]
     end)
     |> URI.encode_query()
